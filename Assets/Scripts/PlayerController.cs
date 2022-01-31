@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]private float speed;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private GameObject projectilePrefab;
+    private Rigidbody2D _rigidbody2D;
     private CameraController _cameraController; //refers to CameraController script
     private Camera _mainCamera; //refers to the actual Camera itself
-    
+
     private void Start()
     {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
         _cameraController = FindObjectOfType<CameraController>();
         _mainCamera = Camera.main;
     }
@@ -19,11 +22,16 @@ public class PlayerController : MonoBehaviour
         ControlPlayer();
     }
     
-    private void ControlPlayer() //updates player position based on player input
+    private void ControlPlayer() //updates player position based on input 
     {
-        float xMovement = Input.GetAxis("Horizontal") * speed;
-        float yMovement = Input.GetAxis("Vertical") * speed;
+        float xMovement = Input.GetAxis("Horizontal") * moveSpeed;
+        float yMovement = Input.GetAxis("Vertical") * moveSpeed;
         transform.position += new Vector3(xMovement, yMovement, 0);
+        
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
+        }
     }
 
     private void CameraFollow() //updates player's x position to match camera's
@@ -37,5 +45,12 @@ public class PlayerController : MonoBehaviour
         pos.x = Mathf.Clamp01(pos.x);
         pos.y = Mathf.Clamp01(pos.y);
         transform.position = _mainCamera.ViewportToWorldPoint(pos);
+    }
+
+    private void Shoot() 
+    {
+        GameObject shot = Instantiate(projectilePrefab, _rigidbody2D.position + new Vector2(0.5f, 0), Quaternion.identity);
+        Projectile projectile = shot.GetComponent<Projectile>();
+        projectile.Launch(500);
     }
 }
