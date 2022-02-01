@@ -4,12 +4,15 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private int maxHealth = 1;
+    private int CurrentHealth { get; set; }
     private Rigidbody2D _rigidbody2D;
     private CameraController _cameraController; //refers to CameraController script
     private Camera _mainCamera; //refers to the actual Camera itself
 
     private void Start()
     {
+        CurrentHealth = maxHealth;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _cameraController = FindObjectOfType<CameraController>();
         _mainCamera = Camera.main;
@@ -20,8 +23,17 @@ public class PlayerController : MonoBehaviour
         CameraClamp();
         CameraFollow();
         ControlPlayer();
+        HealthCheck();
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            CurrentHealth--;
+        }
+    }
+
     private void ControlPlayer() //updates player position based on input 
     {
         float xMovement = Input.GetAxis("Horizontal") * moveSpeed;
@@ -52,5 +64,12 @@ public class PlayerController : MonoBehaviour
         GameObject shot = Instantiate(projectilePrefab, _rigidbody2D.position + new Vector2(0.5f, 0), Quaternion.identity);
         Projectile projectile = shot.GetComponent<Projectile>();
         projectile.Launch(500);
+    }
+    private void HealthCheck()
+    {
+        if (CurrentHealth == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

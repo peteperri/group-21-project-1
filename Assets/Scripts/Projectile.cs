@@ -4,9 +4,9 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rigidbody2d;
     private PlayerController _player;
-
     private void Start()
     {
+        rigidbody2d = GetComponent<Rigidbody2D>();
         _player = FindObjectOfType<PlayerController>();
     }
     

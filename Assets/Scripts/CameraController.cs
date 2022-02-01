@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float camSpeed;
-    public float CamSpeed { get => camSpeed; } //getter to access camSpeed in PlayerController
+    public float CamSpeed {get => camSpeed;} //getter property to access camSpeed in PlayerController
     
     private void Update()
     {
