@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private int maxHealth = 1;
+    [SerializeField] private int launchForce = 5000;
     private int CurrentHealth { get; set; }
     private Rigidbody2D _rigidbody2D;
     private CameraController _cameraController; //refers to CameraController script
@@ -63,8 +64,9 @@ public class PlayerController : MonoBehaviour
     {
         GameObject shot = Instantiate(projectilePrefab, _rigidbody2D.position + new Vector2(0.5f, 0), Quaternion.identity);
         Projectile projectile = shot.GetComponent<Projectile>();
-        projectile.Launch(500);
+        projectile.Launch(launchForce);
     }
+    
     private void HealthCheck()
     {
         if (CurrentHealth == 0)
