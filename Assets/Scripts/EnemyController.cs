@@ -3,22 +3,27 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private int health = 1;
-    private PlayerController _player;
+    protected PlayerController Player;
     
-    private void Start()
+    protected void Start()
     {
-        _player = FindObjectOfType<PlayerController>();
+        Player = FindObjectOfType<PlayerController>();
     }
 
-    private void Update()
+    protected void Update()
     {
-        if (_player.transform.position.x - transform.position.x  > 10.0f)
+        DistanceCheck();
+    }
+
+    protected void DistanceCheck()
+    {
+        if (Player.transform.position.x - transform.position.x  > 20.0f)
         {
             Destroy(gameObject);
         }
     }
-    
-    private void OnTriggerEnter2D(Collider2D other)
+
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         CheckIfDamaged(other);
     }
@@ -35,7 +40,5 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
-
-    
 }
 

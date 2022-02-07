@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxHealth = 1;
     [SerializeField] private int launchForce = 5000;
     [SerializeField] private GameObject shipModel;
+    [SerializeField] private int powerUpState = 0;
     private int CurrentHealth { get; set; }
     private Rigidbody2D _rigidbody2D;
     private CameraController _cameraController; //refers to CameraController script
@@ -39,6 +41,12 @@ public class PlayerController : MonoBehaviour
         {
             CurrentHealth = 0;
         }
+
+        if (other.CompareTag("PowerUp"))
+        {
+            powerUpState++;
+            Destroy(other.gameObject);
+        }
     }
 
     private void ControlPlayer() //updates player position based on input 
@@ -51,7 +59,13 @@ public class PlayerController : MonoBehaviour
         {
             Shoot();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            PowerUp();
+        }
     }
+    
 
     private void CameraFollow() //updates player's x position to match camera's
     {
@@ -78,6 +92,40 @@ public class PlayerController : MonoBehaviour
         if (CurrentHealth == 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void PowerUp()
+    {
+        switch (powerUpState)
+        {
+            case 1:
+                Debug.Log("SPEEDUP");
+                powerUpState = 0;
+                break;
+            case 2:
+                Debug.Log("MISSILE");
+                powerUpState = 0;
+                break;
+            case 3:
+                Debug.Log("DOUBLE");
+                powerUpState = 0;
+                break;
+            case 4:
+                Debug.Log("LASER");
+                powerUpState = 0;
+                break;
+            case 5:
+                Debug.Log("OPTION");
+                powerUpState = 0;
+                break;
+            case 6: 
+                Debug.Log("?");
+                powerUpState = 0;
+                break;
+            case 7:
+                powerUpState = 1;
+                break;
         }
     }
 
