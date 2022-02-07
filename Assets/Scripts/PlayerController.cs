@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour
         {
             CurrentHealth--;
         }
+        
+        if (other.CompareTag("Obstacle"))
+        {
+            CurrentHealth = 0;
+        }
     }
 
     private void ControlPlayer() //updates player position based on input 
@@ -63,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private void Shoot() 
     {
         GameObject shot = Instantiate(projectilePrefab, _rigidbody2D.position + new Vector2(0.5f, 0), Quaternion.identity);
-        Projectile projectile = shot.GetComponent<Projectile>();
+        ProjectileController projectile = shot.GetComponent<ProjectileController>();
         projectile.Launch(launchForce);
     }
     

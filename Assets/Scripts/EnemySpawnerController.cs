@@ -29,7 +29,7 @@ public class EnemySpawnerController : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        float spawnPoint = Random.Range(-4.5f, 5.0f);
+        float spawnPoint = Random.Range(-4.0f, 4.0f);
         Instantiate(enemyPrefab,new Vector2(transform.position.x, spawnPoint), Quaternion.identity);
     }
     

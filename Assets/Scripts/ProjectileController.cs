@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class ProjectileController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rigidbody2d;
     private PlayerController _player;
