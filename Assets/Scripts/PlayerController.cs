@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private int maxHealth = 1;
     [SerializeField] private int launchForce = 5000;
+    [SerializeField] private GameObject shipModel;
     private int CurrentHealth { get; set; }
     private Rigidbody2D _rigidbody2D;
     private CameraController _cameraController; //refers to CameraController script
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour
         float xMovement = Input.GetAxis("Horizontal") * moveSpeed;
         float yMovement = Input.GetAxis("Vertical") * moveSpeed;
         transform.position += new Vector3(xMovement, yMovement, 0);
-        
+        RotateModel(yMovement);
         if(Input.GetKeyDown(KeyCode.Space))
         {
             Shoot();
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot() 
     {
-        GameObject shot = Instantiate(projectilePrefab, _rigidbody2D.position + new Vector2(0.5f, 0), Quaternion.identity);
+        GameObject shot = Instantiate(projectilePrefab, _rigidbody2D.position + new Vector2(1.7f, -0.1f), Quaternion.identity);
         ProjectileController projectile = shot.GetComponent<ProjectileController>();
         projectile.Launch(launchForce);
     }
@@ -77,6 +78,26 @@ public class PlayerController : MonoBehaviour
         if (CurrentHealth == 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void RotateModel(float yMovement)
+    {
+        //bool isRotating = yMovement != 0;
+        if (yMovement > 0)
+        {
+            shipModel.transform.eulerAngles = new Vector3(-491, -180, 90);
+            //shipModel.transform.Rotate(new Vector3(0, -40, 0));
+        }
+        else if (yMovement < 0)
+        {
+            //shipModel.transform.Rotate(new Vector3(0, 40, 0));
+            shipModel.transform.eulerAngles = new Vector3(-411, -180, 90);
+        }
+        else
+        {
+            //shipModel.transform.Rotate(new Vector3(0, 0, 0));
+            shipModel.transform.eulerAngles = new Vector3(-451, -180, 90);
         }
     }
 }

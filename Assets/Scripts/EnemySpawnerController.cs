@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemySpawnerController : MonoBehaviour
 {
     private CameraController _cameraController;
-    [SerializeField]private GameObject enemyPrefab;
+    [SerializeField] private GameObject enemyPrefab;
     private bool _coroutineBegun;
     
     void Start()
