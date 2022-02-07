@@ -5,21 +5,16 @@ public class EnemySpawnerController : MonoBehaviour
 {
     private CameraController _cameraController;
     [SerializeField] private GameObject enemyPrefab;
-    private bool _coroutineBegun;
-    
+
     void Start()
     {
         _cameraController = FindObjectOfType<CameraController>();
+        StartCoroutine(WaitAndSpawn(3));
     }
     
     void Update()
     {
         CameraFollow();
-        if (!_coroutineBegun)
-        {
-            StartCoroutine(WaitAndSpawn(3));
-            _coroutineBegun = true;
-        }
     }
     
     private void CameraFollow() //updates this object's x position to match camera's
@@ -35,14 +30,15 @@ public class EnemySpawnerController : MonoBehaviour
     
     IEnumerator WaitAndSpawn(int time)
     {
-        
-        int enemyCount = Random.Range(1, 4);
-        for (int i = 0; i < enemyCount; i++)
+        while (true)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(Random.Range(0.2f, 0.8f));
+            int enemyCount = Random.Range(1, 4);
+            for (int i = 0; i < enemyCount; i++)
+            {
+                SpawnEnemy();
+                yield return new WaitForSeconds(Random.Range(0.2f, 0.8f));
+            }
+            yield return new WaitForSeconds(time);
         }
-        yield return new WaitForSeconds(time);
-        _coroutineBegun = false;
     }
 }
