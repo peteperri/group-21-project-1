@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Player_Scripts
 {
@@ -13,6 +14,7 @@ namespace Player_Scripts
         [SerializeField] private int maxHealth = 1;
         [SerializeField] private int launchForce = 5000;
         [SerializeField] private GameObject shipModel;
+        [SerializeField] private Text powerUpInfo;
         [SerializeField] private int powerUpState;
         
         private bool _hasDoubleShot;
@@ -20,13 +22,14 @@ namespace Player_Scripts
         private bool _hasLaser;
         private bool _canSpawnShield;
         private bool _isAlive = true;
+
+        private string _powerUpString;
         
         public bool HasShield { get; set; }
         private int CurrentHealth { get; set; }
         
         private Rigidbody2D _rigidbody2D;
-        private PolygonCollider2D _polygonCollider2D;
-        
+
         private CameraController _cameraController; //refers to CameraController script
         private Camera _mainCamera; //refers to the actual Camera itself
 
@@ -45,6 +48,7 @@ namespace Player_Scripts
             ControlPlayer();
             HealthCheck();
             ShieldCheck();
+            UpdatePowerUpString();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -62,7 +66,10 @@ namespace Player_Scripts
             if (other.CompareTag("PowerUp"))
             {
                 powerUpState++;
-                Debug.Log(powerUpState);
+                if (powerUpState >= 7)
+                {
+                    powerUpState = 1;
+                }
                 Destroy(other.gameObject);
             }
         }
@@ -130,6 +137,7 @@ namespace Player_Scripts
 
         private void PowerUp() //activates when the player presses the powerup button; grants the player a powerup based on their powerup state
         {
+            _powerUpString = "NOTHING";
             switch (powerUpState)
             {
                 case 1:
@@ -140,29 +148,95 @@ namespace Player_Scripts
                     if (!_hasMissile)
                     {
                         StartCoroutine(Missile());
-                        powerUpState = 0; 
+                        powerUpState = 0;
                     }
+
                     break;
                 case 3:
-                    _hasDoubleShot = true;
-                    powerUpState = 0;
+                    if (!_hasDoubleShot)
+                    {
+                        _hasDoubleShot = true;
+                        powerUpState = 0;
+                    }
+
                     break;
                 case 4:
-                    _hasLaser = true;
-                    powerUpState = 0;
+                    if (!_hasLaser)
+                    {
+                        _hasLaser = true;
+                        powerUpState = 0;
+                    }
                     break;
                 case 5:
                     Debug.Log("OPTION");
                     powerUpState = 0;
                     break;
                 case 6:
-                    _canSpawnShield = true;
-                    powerUpState = 0;
-                    break;
-                case 7:
-                    powerUpState = 1;
+                    if (!HasShield)
+                    {
+                        _canSpawnShield = true;
+                        powerUpState = 0; 
+                    }
                     break;
             }
+        }
+
+        private void UpdatePowerUpString()
+        {
+            switch (powerUpState)
+            {
+                case 0:
+                    _powerUpString = "NOTHING";
+                    break;
+                case 1:
+                    _powerUpString = "SPEEDUP";
+                    break;
+                case 2:
+                    if (!_hasMissile)
+                    {
+                        _powerUpString = "MISSILE";
+                    }
+                    else
+                    {
+                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE MISSILE)";
+                    }
+                    break;
+                case 3:
+                    if (!_hasDoubleShot)
+                    {
+                        _powerUpString = "DOUBLESHOT";
+                    }
+                    else
+                    {
+                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE DOUBLESHOT)";
+                    }
+                    break;
+                case 4:
+                    if (!_hasLaser)
+                    {
+                        _powerUpString = "LASER";
+                    }
+                    else
+                    {
+                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE LASER)";
+                    }
+                    break;
+                case 5:
+                    _powerUpString = "NOTHING \n(NOT IMPLEMENTED)";
+                    break;
+                case 6:
+                    if (!_canSpawnShield && !HasShield)
+                    {
+                        _powerUpString = "SHIELD";
+                    }
+                    else
+                    {
+                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE SHIELD)";
+                    }
+                    break;
+            }
+            
+            powerUpInfo.text = $"PowerUp State: {powerUpState}\nPress Shift for {_powerUpString}";
         }
 
         private IEnumerator Missile() //shoots a missile downwards every second when activated
