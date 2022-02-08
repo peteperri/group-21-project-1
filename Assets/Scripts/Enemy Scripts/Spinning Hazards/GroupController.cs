@@ -12,7 +12,7 @@ namespace Enemy_Scripts.Spinning_Hazards
         [SerializeField] private SpinningGuyController child3;
         [SerializeField] private SpinningGuyController child4;
         [SerializeField] private GameObject pickup;
-        [SerializeField] private float child1speed;
+        [SerializeField] private float child1Speed;
         [SerializeField] private float delay;
         private readonly SpinningGuyController[] _children = new SpinningGuyController[4];
         private Camera _camera;
@@ -40,7 +40,7 @@ namespace Enemy_Scripts.Spinning_Hazards
 
             if (deadCount == _children.Length)
             {
-                Instantiate(pickup, transform.position + new Vector3(0f, 0, 0), Quaternion.identity);
+                Instantiate(pickup, transform.position + new Vector3(0f, 0, 0), Quaternion.AngleAxis(-90,new Vector3(0,1,0)));
                 Destroy(gameObject);
             }
 
@@ -56,11 +56,11 @@ namespace Enemy_Scripts.Spinning_Hazards
             {
                 if (_children[0].transform.position.y > 0)
                 {
-                    _children[0].transform.position += new Vector3(child1speed * 2, child1speed, 0);
+                    _children[0].transform.position += new Vector3(child1Speed * 2, child1Speed, 0);
                 }
                 else
                 {
-                    _children[0].transform.position += new Vector3(child1speed * 2, -child1speed, 0);
+                    _children[0].transform.position += new Vector3(child1Speed * 2, -child1Speed, 0);
                 }
                 for (int i = 1; i < _children.Length; i++)
                 {
