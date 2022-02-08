@@ -5,13 +5,16 @@ namespace Enemy_Scripts.Ship_Enemy
     public class ShipEnemyController : EnemyController
     {
         [SerializeField] private float waveSize;
-        [SerializeField] private float speed;
+        [SerializeField] private float waveSpeed;
+        [SerializeField] private float moveSpeed;
 
         // Update is called once per frame
         private new void Update()
         {
             DistanceCheck();
-            transform.position += transform.right *  Time.deltaTime * waveSize * Mathf.Sin (Time.time * speed);
+            Vector3 sinePattern = transform.right * Time.deltaTime * waveSize * Mathf.Sin(Time.time * waveSpeed);
+            Vector3 moveTowardsPlayer = new Vector3(moveSpeed, 0, 0);
+            transform.position += sinePattern - moveTowardsPlayer;
         }
     }
 }

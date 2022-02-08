@@ -52,6 +52,8 @@ MonoBehaviour:
   child3: {fileID: 46107480175009931}
   child4: {fileID: 8978190833657429802}
   pickup: {fileID: 5712640112736344700, guid: c90f5a0caa48d644bb2b1f2bf68dc7f1, type: 3}
+  child1speed: 0.075
+  delay: 0.15
 --- !u!1001 &4174766137942839966
 PrefabInstance:
   m_ObjectHideFlags: 0

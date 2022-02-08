@@ -134,5 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
-  waveSize: 5
-  speed: 2
+  waveSize: 8
+  waveSpeed: 5
+  moveSpeed: 0.075

@@ -6,11 +6,11 @@ namespace Enemy_Scripts
     public class EnemyController : MonoBehaviour
     {
         [SerializeField] private int health = 1;
-        private PlayerController _player;
+        protected PlayerController Player;
     
         protected void Start()
         {
-            _player = FindObjectOfType<PlayerController>();
+            Player = FindObjectOfType<PlayerController>();
         }
 
         protected void Update()
@@ -20,7 +20,7 @@ namespace Enemy_Scripts
 
         protected void DistanceCheck()
         {
-            if (_player.transform.position.x - transform.position.x  > 20.0f)
+            if (Player.transform.position.x - transform.position.x  > 20.0f)
             {
                 Destroy(gameObject);
             }
