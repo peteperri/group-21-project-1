@@ -4,7 +4,13 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private float camSpeed;
     public float CamSpeed {get => camSpeed;} //getter property to access camSpeed in PlayerController
-    
+
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
+    }
+
     private void Update()
     {
         MoveCamera();
