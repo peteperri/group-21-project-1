@@ -17,7 +17,7 @@ namespace Enemy_Scripts
         {
             _player = FindObjectOfType<PlayerController>();
             _cameraController = FindObjectOfType<CameraController>();
-            StartCoroutine(WaitAndSpawn(2));
+            StartCoroutine(WaitAndSpawn(3));
         }
     
         void Update()
@@ -53,7 +53,7 @@ namespace Enemy_Scripts
         {
             while (_player.IsAlive)
             {
-                int enemyCount = Random.Range(1, 4);
+                int enemyCount = Random.Range(1, 3);
                 for (int i = 0; i < enemyCount; i++)
                 {
                     SpawnEnemy();
