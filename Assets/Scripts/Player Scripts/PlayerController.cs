@@ -2,40 +2,40 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Camera_Scripts;
 
 namespace Player_Scripts
 {
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] private int maxHealth = 1;
+        [SerializeField] private int launchForce = 5000;
         [SerializeField] private float moveSpeed;
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private GameObject laserPrefab;
         [SerializeField] private GameObject shieldPrefab;
-        [SerializeField] private int maxHealth = 1;
-        [SerializeField] private int launchForce = 5000;
+        [SerializeField] private GameObject missilePrefab;
         [SerializeField] private GameObject shipModel;
         [SerializeField] private Text powerUpInfo;
-        [SerializeField] private int powerUpState;
         
         private bool _hasDoubleShot;
         private bool _hasMissile;
         private bool _hasLaser;
         private bool _canSpawnShield;
-        private bool _isAlive = true;
-
         private string _powerUpString;
+        private int _currentHealth;
         
         public bool HasShield { get; set; }
-        private int CurrentHealth { get; set; }
-        
-        private Rigidbody2D _rigidbody2D;
+        public bool IsAlive { get; private set; } = true;
+        public int PowerUpState { get; private set; }
 
+        private Rigidbody2D _rigidbody2D;
         private CameraController _cameraController; //refers to CameraController script
         private Camera _mainCamera; //refers to the actual Camera itself
 
         private void Start()
         {
-            CurrentHealth = maxHealth;
+            _currentHealth = maxHealth;
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _cameraController = FindObjectOfType<CameraController>();
             _mainCamera = Camera.main;
@@ -55,20 +55,20 @@ namespace Player_Scripts
         {
             if (other.CompareTag("Enemy"))
             {
-                CurrentHealth--;
+                _currentHealth--;
             }
         
             if (other.CompareTag("Obstacle"))
             {
-                CurrentHealth = 0;
+                _currentHealth = 0;
             }
 
             if (other.CompareTag("PowerUp"))
             {
-                powerUpState++;
-                if (powerUpState >= 7)
+                PowerUpState++;
+                if (PowerUpState >= 6)
                 {
-                    powerUpState = 1;
+                    PowerUpState = 1;
                 }
                 Destroy(other.gameObject);
             }
@@ -76,7 +76,7 @@ namespace Player_Scripts
 
         private void ControlPlayer() //updates player position based on input 
         {
-            if (_isAlive)
+            if (IsAlive)
             {
                 float xMovement = Input.GetAxis("Horizontal") * moveSpeed;
                 float yMovement = Input.GetAxis("Vertical") * moveSpeed;
@@ -84,11 +84,10 @@ namespace Player_Scripts
                 RotateModel(yMovement);
                 if(Input.GetKeyDown(KeyCode.Space))
                 {
-                
-                    Shoot(launchForce, 0, Quaternion.identity, _hasLaser);
+                    Shoot(launchForce, 0, Quaternion.identity, _hasLaser, false);
                     if (_hasDoubleShot)
                     {
-                        Shoot(launchForce, launchForce, Quaternion.AngleAxis(45, new Vector3(0, 0, 45)), false);
+                        Shoot(launchForce, launchForce, Quaternion.AngleAxis(45, new Vector3(0, 0, 45)), false, false);
                     }
                 }
 
@@ -104,78 +103,74 @@ namespace Player_Scripts
                     SceneManager.LoadScene("SampleScene");
                 }
             }
-
-
         }
 
-        private void Shoot(float xForce, float yForce, Quaternion angle, bool hasLaser)
+        private void Shoot(float xForce, float yForce, Quaternion angle, bool hasLaser, bool isMissile)
         {
-            GameObject shot;
+            float ySpawn = 0;
+            GameObject prefab = projectilePrefab;
             if (hasLaser)
             {
-                shot = Instantiate(laserPrefab, _rigidbody2D.position + new Vector2(1.3f, 0), angle);
-            }
-            else
+                prefab = laserPrefab;
+            } 
+            else if (isMissile)
             {
-                shot = Instantiate(projectilePrefab, _rigidbody2D.position + new Vector2(1.3f, 0), angle);
+                prefab = missilePrefab;
+                ySpawn = -0.5f;
             }
-            
+
+            GameObject shot = Instantiate(prefab, _rigidbody2D.position + new Vector2(1.3f, ySpawn), angle);
             ProjectileController projectile = shot.GetComponent<ProjectileController>();
             projectile.Launch(xForce, yForce);
         }
     
         private void HealthCheck() //checks if the player should be dead or not
         {
-            if (CurrentHealth == 0 && _isAlive)
+            if (_currentHealth == 0 && IsAlive)
             {
                 MeshRenderer model = shipModel.GetComponent<MeshRenderer>();
                 model.enabled = false;
                 moveSpeed = 0;
-                _isAlive = false;
+                IsAlive = false;
             }
         }
 
         private void PowerUp() //activates when the player presses the powerup button; grants the player a powerup based on their powerup state
         {
             _powerUpString = "NOTHING";
-            switch (powerUpState)
+            switch (PowerUpState)
             {
                 case 1:
                     moveSpeed *= 1.2f;
-                    powerUpState = 0;
+                    _cameraController.CamSpeed *= 1.2f;
+                    PowerUpState = 0;
                     break;
                 case 2:
                     if (!_hasMissile)
                     {
                         StartCoroutine(Missile());
-                        powerUpState = 0;
+                        PowerUpState = 0;
                     }
-
                     break;
                 case 3:
                     if (!_hasDoubleShot)
                     {
                         _hasDoubleShot = true;
-                        powerUpState = 0;
+                        PowerUpState = 0;
                     }
-
                     break;
                 case 4:
                     if (!_hasLaser)
                     {
                         _hasLaser = true;
-                        powerUpState = 0;
+                        PowerUpState = 0;
                     }
                     break;
                 case 5:
-                    Debug.Log("OPTION");
-                    powerUpState = 0;
-                    break;
-                case 6:
                     if (!HasShield)
                     {
                         _canSpawnShield = true;
-                        powerUpState = 0; 
+                        PowerUpState = 0; 
                     }
                     break;
             }
@@ -183,7 +178,7 @@ namespace Player_Scripts
 
         private void UpdatePowerUpString()
         {
-            switch (powerUpState)
+            switch (PowerUpState)
             {
                 case 0:
                     _powerUpString = "NOTHING";
@@ -222,9 +217,6 @@ namespace Player_Scripts
                     }
                     break;
                 case 5:
-                    _powerUpString = "NOTHING \n(NOT IMPLEMENTED)";
-                    break;
-                case 6:
                     if (!_canSpawnShield && !HasShield)
                     {
                         _powerUpString = "SHIELD";
@@ -236,15 +228,15 @@ namespace Player_Scripts
                     break;
             }
             
-            powerUpInfo.text = $"PowerUp State: {powerUpState}\nPress Shift for {_powerUpString}";
+            powerUpInfo.text = $"PowerUp State: {PowerUpState}\nPress Shift for {_powerUpString}";
         }
 
         private IEnumerator Missile() //shoots a missile downwards every second when activated
         {
             _hasMissile = true;
-            while(true)
+            while(IsAlive)
             {
-                Shoot(launchForce/2.0f, -launchForce/2.0f, Quaternion.AngleAxis(-45, new Vector3(0, 0, 45)), false);
+                Shoot(launchForce/2.0f, -launchForce/2.0f, Quaternion.AngleAxis(-45, new Vector3(0, 0, 1)), false, true);
                 yield return new WaitForSeconds(1);
             }
         }

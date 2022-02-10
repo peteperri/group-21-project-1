@@ -14,7 +14,7 @@ namespace Player_Scripts
     
         private void Update() //kills projectiles when they get too far away
         {
-            if (transform.position.x - _player.transform.position.x > 20.0f)
+            if (transform.position.x - _player.transform.position.x > 20.0f || !_player.IsAlive)
             {
                 Destroy(gameObject);
             }

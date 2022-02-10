@@ -14,7 +14,11 @@ namespace Player_Scripts
         
         private void Update()
         {
-            transform.position = _player.transform.position + _offset; 
+            transform.position = _player.transform.position + _offset;
+            if (!_player.IsAlive)
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)

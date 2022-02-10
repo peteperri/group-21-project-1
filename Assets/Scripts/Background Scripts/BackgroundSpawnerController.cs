@@ -1,4 +1,5 @@
 using System.Collections;
+using Player_Scripts;
 using UnityEngine;
 
 namespace Background_Scripts
@@ -7,10 +8,12 @@ namespace Background_Scripts
     {
         [SerializeField] private GameObject bgPrefab;
         private int _spawnCount;
+        private PlayerController _player;
 
         private void Start()
         {
-            for (_spawnCount = 0; _spawnCount < 2; _spawnCount++)
+            _player = FindObjectOfType<PlayerController>();
+            for (_spawnCount = 0; _spawnCount < 10; _spawnCount++)
             {
                 SpawnBackground();
             }
@@ -19,11 +22,11 @@ namespace Background_Scripts
 
         private IEnumerator TimerSpawn()
         {
-            while (true)
+            while (_player.IsAlive)
             {
                 SpawnBackground();
                 _spawnCount++;
-                yield return new WaitForSeconds(4);
+                yield return new WaitForSeconds(2);
             }
         }
 
