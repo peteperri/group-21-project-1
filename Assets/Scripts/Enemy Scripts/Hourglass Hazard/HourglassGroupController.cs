@@ -12,7 +12,7 @@ namespace Enemy_Scripts.Hourglass_Hazard
         private new void Update()
         {
             DistanceCheck();
-            transform.position += new Vector3(-0.075f, 0, 0);
+            transform.position += new Vector3(-5f, 0, 0) * Time.deltaTime;
         }
     }
 }

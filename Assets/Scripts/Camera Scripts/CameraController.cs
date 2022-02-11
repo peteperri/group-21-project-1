@@ -14,8 +14,8 @@ namespace Camera_Scripts
 
         private void Start()
         {
-            Application.targetFrameRate = 60;
-            QualitySettings.vSyncCount = 0;
+            //Application.targetFrameRate = 60;
+            //QualitySettings.vSyncCount = 0;
             _boss = FindObjectOfType<BossController>();
         }
 
@@ -41,7 +41,7 @@ namespace Camera_Scripts
         private IEnumerator LoadWinScene()
         {
             yield return new WaitForSeconds(1);
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
     }
 

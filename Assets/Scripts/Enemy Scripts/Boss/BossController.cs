@@ -28,7 +28,7 @@ namespace Enemy_Scripts.Boss
             
             Vector3 relativePosition = _camera.transform.InverseTransformDirection(transform.position - _camera.transform.position);
             float y = Mathf.PingPong(Time.time, 3) * 3 - 4;
-            transform.position = new Vector3(transform.position.x, y, transform.position.z) * Time.deltaTime;
+            transform.position = new Vector3(transform.position.x, y, transform.position.z);
             
             if (relativePosition.x < 6.0f)
             {

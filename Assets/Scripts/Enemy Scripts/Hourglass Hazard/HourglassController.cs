@@ -12,7 +12,7 @@ namespace Enemy_Scripts.Hourglass_Hazard
         private new void Update()
         {
             DistanceCheck();
-            transform.Rotate(0,-10,0);
+            transform.Rotate(0,-360 * Time.deltaTime,0);
         }
     }
 }

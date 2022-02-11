@@ -12,9 +12,9 @@ namespace Enemy_Scripts.Ship_Enemy
         private new void Update()
         {
             DistanceCheck();
-            Vector3 sinePattern = transform.right * Time.deltaTime * waveSize * Mathf.Sin(Time.time * waveSpeed);
+            Vector3 sinePattern = transform.right * waveSize * Mathf.Sin(Time.time * waveSpeed);
             Vector3 moveTowardsPlayer = new Vector3(moveSpeed, 0, 0);
-            transform.position += sinePattern - moveTowardsPlayer;
+            transform.position += (sinePattern - moveTowardsPlayer) * Time.deltaTime;
         }
     }
 }

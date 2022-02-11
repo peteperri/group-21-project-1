@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 
 namespace Enemy_Scripts.Small_Ship_Enemy
@@ -26,7 +24,7 @@ namespace Enemy_Scripts.Small_Ship_Enemy
         private new void Update()
         {
             base.Update();
-            transform.position += new Vector3(-0.01f, 0.05f * _direction,0); 
+            transform.position += new Vector3(-0.25f, 2f * _direction,0) * Time.deltaTime; 
         }
 
         private new void OnTriggerEnter2D(Collider2D other)

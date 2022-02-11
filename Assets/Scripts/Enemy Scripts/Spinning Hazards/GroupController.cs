@@ -56,16 +56,15 @@ namespace Enemy_Scripts.Spinning_Hazards
             {
                 if (_children[0].transform.position.y > 0)
                 {
-                    _children[0].transform.position += new Vector3(child1Speed * 2, child1Speed, 0);
+                    _children[0].transform.position += new Vector3(child1Speed * 2 * Time.deltaTime, child1Speed * Time.deltaTime, 0);
                 }
                 else
                 {
-                    _children[0].transform.position += new Vector3(child1Speed * 2, -child1Speed, 0);
+                    _children[0].transform.position += new Vector3(child1Speed * 2 * Time.deltaTime, -child1Speed * Time.deltaTime, 0);
                 }
                 for (int i = 1; i < _children.Length; i++)
                 {
-                    _children[i].transform.position = Vector3.MoveTowards(_children[i].transform.position,
-                        _children[i - 1].transform.position, delay);
+                    _children[i].transform.position = Vector3.MoveTowards(_children[i].transform.position, _children[i - 1].transform.position, delay  * Time.deltaTime);
                 }
             }
 

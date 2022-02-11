@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 845d81f7855ed85469fe66c21ca40f70, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.3532867
+      value: -4.61
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 845d81f7855ed85469fe66c21ca40f70, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1132,7 +1132,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114218211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 128.5, y: 5.62, z: 0}
+  m_LocalPosition: {x: 128.5, y: 5.74, z: 0}
   m_LocalScale: {x: 366.49, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3615,7 +3615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d0b928d08707443b778cecff58497f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camSpeed: 0.075
+  camSpeed: 5
 --- !u!82 &519420034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9194,7 +9194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1
   launchForce: 2500
-  moveSpeed: 0.075
+  moveSpeed: 5
   projectilePrefab: {fileID: 2917054197731354087, guid: e32b5062e5a754c4ebaa26cbd82070ef, type: 3}
   laserPrefab: {fileID: 2917054197731354087, guid: e71e383aa81af414e8809e26744667fe, type: 3}
   shieldPrefab: {fileID: 1818647134206254041, guid: 4d23830b707c9944f972198992ea676d, type: 3}

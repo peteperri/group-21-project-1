@@ -16,7 +16,7 @@ namespace Enemy_Scripts.Spinning_Hazards
 
         private new void Update()
         {
-            transform.Rotate(-5.0f, 0.0f, 0.0f);
+            transform.Rotate(-320f * Time.deltaTime, 0.0f, 0.0f);
             DistanceCheck();
         }
         

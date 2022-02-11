@@ -6,7 +6,7 @@ namespace Enemy_Scripts.Turret
     {
         private void Update()
         {
-            transform.eulerAngles += new Vector3(0,0,100);
+            transform.eulerAngles += new Vector3(0,0,3600) * Time.deltaTime;
         }
     }
 }

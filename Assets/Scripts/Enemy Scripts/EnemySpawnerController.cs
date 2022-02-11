@@ -29,7 +29,7 @@ namespace Enemy_Scripts
     
         private void CameraFollow() //updates this object's x position to match camera's
         {
-            transform.position += new Vector3(_cameraController.CamSpeed, 0, 0);
+            transform.position += new Vector3(_cameraController.CamSpeed, 0, 0) * Time.deltaTime;
         }
 
         private void SpawnEnemy()

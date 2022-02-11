@@ -39,6 +39,8 @@ namespace Player_Scripts
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _cameraController = FindObjectOfType<CameraController>();
             _mainCamera = Camera.main;
+            Instantiate(shieldPrefab);
+            HasShield = true;
         }
     
         private void Update() 
@@ -75,7 +77,7 @@ namespace Player_Scripts
             {
                 float xMovement = Input.GetAxis("Horizontal") * moveSpeed;
                 float yMovement = Input.GetAxis("Vertical") * moveSpeed;
-                transform.position += new Vector3(xMovement, yMovement, 0);
+                transform.position += new Vector3(xMovement, yMovement, 0) * Time.deltaTime;
                 RotateModel(yMovement);
                 if(Input.GetKeyDown(KeyCode.Space))
                 {
@@ -93,7 +95,7 @@ namespace Player_Scripts
             }
             else
             {
-                SceneManager.LoadScene(4);
+                SceneManager.LoadScene(3);
             }
         }
 
@@ -261,7 +263,7 @@ namespace Player_Scripts
         
         private void CameraFollow() //updates player's x position to match camera's
         {
-            transform.position += new Vector3(_cameraController.CamSpeed, 0, 0);
+            transform.position += new Vector3(_cameraController.CamSpeed, 0, 0) * Time.deltaTime;
         }
 
         private void CameraClamp() //prevents player from leaving boundaries of camera

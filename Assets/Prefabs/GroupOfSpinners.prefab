@@ -47,13 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5482c727ba014468d6bcb8b1844aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 1
   child1: {fileID: 8752336188702932764}
   child2: {fileID: 5848419473637806739}
   child3: {fileID: 46107480175009931}
   child4: {fileID: 8978190833657429802}
   pickup: {fileID: 5712640112736344700, guid: c90f5a0caa48d644bb2b1f2bf68dc7f1, type: 3}
-  child1Speed: 0.075
-  delay: 0.15
+  child1Speed: 5
+  delay: 10
 --- !u!1001 &4174766137942839966
 PrefabInstance:
   m_ObjectHideFlags: 0
