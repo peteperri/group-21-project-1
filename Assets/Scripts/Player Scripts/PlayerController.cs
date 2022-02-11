@@ -98,10 +98,7 @@ namespace Player_Scripts
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    SceneManager.LoadScene(sceneBuildIndex: 1);
-                }
+                SceneManager.LoadScene(4);
             }
         }
 

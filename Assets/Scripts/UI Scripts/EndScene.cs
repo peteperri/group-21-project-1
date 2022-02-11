@@ -1,17 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EndScene : MonoBehaviour
+namespace UI_Scripts
 {
-    public void MainMenu ()
+    public class EndScene : MonoBehaviour
     {
-        SceneManager.LoadScene(0);
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.R))
+            {
+                RestartGame();
+            }
+        }
+
+        public void MainMenu ()
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        public void RestartGame()
+        {
+            SceneManager.LoadScene(1);
+        }
+
+        public void ExitGame ()
+        {
+            Application.Quit();
+        }
     }
 
-    public void ExitGame ()
-    {
-        Application.Quit();
-    }
 }
+
