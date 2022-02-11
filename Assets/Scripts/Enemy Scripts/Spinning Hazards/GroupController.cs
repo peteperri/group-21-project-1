@@ -1,10 +1,11 @@
+using Player_Scripts;
 using UnityEngine;
-using Quaternion = UnityEngine.Quaternion;
-using Vector3 = UnityEngine.Vector3;
+//using Quaternion = UnityEngine.Quaternion;
+//using Vector3 = UnityEngine.Vector3;
 
 namespace Enemy_Scripts.Spinning_Hazards
 {
-    public class GroupController : MonoBehaviour
+    public class GroupController : EnemyController
     {
         [SerializeField] private SpinningGuyController child1;
         [SerializeField] private SpinningGuyController child2;
@@ -17,8 +18,9 @@ namespace Enemy_Scripts.Spinning_Hazards
         private Camera _camera;
         private bool _leavingScreen;
 
-        private void Start()
+        private new void Start()
         {
+            Player = FindObjectOfType<PlayerController>();
             _camera = Camera.main;
             _children[0] = child1;
             _children[1] = child2;
@@ -26,8 +28,9 @@ namespace Enemy_Scripts.Spinning_Hazards
             _children[3] = child4;
         }
 
-        private void Update()
+        private new void Update()
         {
+            DistanceCheck();
             int deadCount = 0;
             foreach (SpinningGuyController child in _children)
             {

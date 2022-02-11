@@ -53,16 +53,11 @@ namespace Player_Scripts
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") || other.CompareTag("EnemyBullet") || other.CompareTag("Obstacle"))
             {
                 _currentHealth--;
             }
-        
-            if (other.CompareTag("Obstacle"))
-            {
-                _currentHealth = 0;
-            }
-
+            
             if (other.CompareTag("PowerUp"))
             {
                 PowerUpState++;

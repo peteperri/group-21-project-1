@@ -27,14 +27,14 @@ namespace Enemy_Scripts.Boss
         {
             
             Vector3 relativePosition = _camera.transform.InverseTransformDirection(transform.position - _camera.transform.position);
+            float y = Mathf.PingPong(Time.time, 3) * 3 - 4;
+            transform.position = new Vector3(transform.position.x, y, transform.position.z) * Time.deltaTime;
             
             if (relativePosition.x < 6.0f)
             {
                 CameraClamp();
                 Debug.Log(transform.position.y);
                 CameraFollow();
-                float y = Mathf.PingPong(Time.time, 3) * 3 - 4;
-                transform.position = new Vector3(transform.position.x, y, transform.position.z);
                 if (!_startedShooting)
                 {
                     StartCoroutine(ShootAtPlayer());
@@ -50,7 +50,7 @@ namespace Enemy_Scripts.Boss
         
         private void CameraFollow() 
         {
-            transform.position += new Vector3(_cameraController.CamSpeed, 0, 0);
+            transform.position += new Vector3(_cameraController.CamSpeed, 0, 0) * Time.deltaTime;
         }
         
         private void CameraClamp() 

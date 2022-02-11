@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Obstacle
   - PowerUp
+  - EnemyBullet
+  - Border
   layers:
   - Default
   - TransparentFX
