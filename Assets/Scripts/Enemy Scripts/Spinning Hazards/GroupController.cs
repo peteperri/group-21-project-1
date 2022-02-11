@@ -43,9 +43,7 @@ namespace Enemy_Scripts.Spinning_Hazards
                 Destroy(gameObject);
             }
 
-            Vector3 relativePosition =
-                _camera.transform.InverseTransformDirection(
-                    _children[0].transform.position - _camera.transform.position);
+            Vector3 relativePosition = _camera.transform.InverseTransformDirection(_children[0].transform.position - _camera.transform.position);
             if (relativePosition.x < 2.0f)
             {
                 _leavingScreen = true;

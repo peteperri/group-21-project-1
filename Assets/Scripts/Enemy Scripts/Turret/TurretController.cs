@@ -34,7 +34,6 @@ namespace Enemy_Scripts.Turret
             LookAtPlayer();
             
         }
-
         private void LookAtPlayer()
         {
             if (Player.transform.position.x < transform.position.x)
@@ -54,7 +53,7 @@ namespace Enemy_Scripts.Turret
             while (Player.IsAlive)
             {   GameObject shot = Instantiate(bullet, _rigidbody2D.position + new Vector2(_xDirection, _yDirection), Quaternion.identity);
                 ProjectileController projectile = shot.GetComponent<ProjectileController>();
-                projectile.Launch(1000 * _xDirection, 1000 * _yDirection);
+                projectile.Launch(500 * _xDirection, 1000 * _yDirection);
                 yield return new WaitForSeconds(2);
             }
         }

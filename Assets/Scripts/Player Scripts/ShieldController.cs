@@ -26,6 +26,7 @@ namespace Player_Scripts
             if (other.CompareTag("Enemy") || other.CompareTag("Obstacle"))
             {
                 _player.HasShield = false;
+                Destroy(other.gameObject);
                 Destroy(gameObject);
             }
         }

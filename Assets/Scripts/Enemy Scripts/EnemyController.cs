@@ -5,7 +5,7 @@ namespace Enemy_Scripts
 {
     public class EnemyController : MonoBehaviour
     {
-        [SerializeField] private int health = 1;
+        [SerializeField] protected int health = 1;
         protected PlayerController Player;
     
         protected void Start()

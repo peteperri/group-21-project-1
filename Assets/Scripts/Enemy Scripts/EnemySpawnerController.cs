@@ -9,6 +9,7 @@ namespace Enemy_Scripts
     {
         private CameraController _cameraController;
         private PlayerController _player;
+        private int _time;
         [SerializeField] private GameObject enemyShipPrefab;
         [SerializeField] private GameObject spinnerPrefab;
         [SerializeField] private GameObject hourGlassPrefab;
@@ -17,7 +18,8 @@ namespace Enemy_Scripts
         {
             _player = FindObjectOfType<PlayerController>();
             _cameraController = FindObjectOfType<CameraController>();
-            StartCoroutine(WaitAndSpawn(3));
+            _time = 3;
+            StartCoroutine(WaitAndSpawn());
         }
     
         void Update()
@@ -32,7 +34,13 @@ namespace Enemy_Scripts
 
         private void SpawnEnemy()
         {
-            int enemyToSpawn = Random.Range(1,3);
+            int enemyToSpawn = Random.Range(1,4);
+            if (transform.position.x > 300)
+            {
+                _time = 5;
+                enemyToSpawn = 1;
+            }
+
             float spawnPoint = Random.Range(-4.0f, 4.0f);;
             switch (enemyToSpawn)
             {
@@ -49,7 +57,7 @@ namespace Enemy_Scripts
             }
         }
     
-        IEnumerator WaitAndSpawn(int time)
+        IEnumerator WaitAndSpawn()
         {
             while (_player.IsAlive)
             {
@@ -59,7 +67,7 @@ namespace Enemy_Scripts
                     SpawnEnemy();
                     yield return new WaitForSeconds(Random.Range(0.5f, 0.8f));
                 }
-                yield return new WaitForSeconds(time);
+                yield return new WaitForSeconds(_time);
             }
         }
     }
