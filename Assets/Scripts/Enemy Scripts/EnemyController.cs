@@ -1,3 +1,4 @@
+using System.Collections;
 using Player_Scripts;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ namespace Enemy_Scripts
         {
             CheckIfDamaged(other);
         }
+        
     
         private void CheckIfDamaged(Collider2D other)
         {

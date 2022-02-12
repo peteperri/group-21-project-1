@@ -2,7 +2,6 @@ using System.Collections;
 using Camera_Scripts;
 using Player_Scripts;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Enemy_Scripts.Boss
 {

@@ -23,10 +23,13 @@ namespace Player_Scripts
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Enemy") || other.CompareTag("Obstacle"))
+            if (other.CompareTag("Enemy") || other.CompareTag("Obstacle") || other.CompareTag("EnemyBullet"))
             {
                 _player.HasShield = false;
-                Destroy(other.gameObject);
+                if (!other.CompareTag("Obstacle"))
+                {
+                    Destroy(other.gameObject); 
+                }
                 Destroy(gameObject);
             }
         }

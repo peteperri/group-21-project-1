@@ -2,7 +2,6 @@ using System.Collections;
 using Enemy_Scripts.Boss;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Windows.WebCam;
 
 namespace Camera_Scripts
 {
@@ -10,26 +9,28 @@ namespace Camera_Scripts
     {
         [SerializeField] private float camSpeed;
         private BossController _boss;
+        private AudioSource _bossDead;
+        private bool _coroutineBegun;
         public float CamSpeed { get => camSpeed; set => camSpeed = value; } 
 
         private void Start()
         {
-            //Application.targetFrameRate = 60;
-            //QualitySettings.vSyncCount = 0;
             _boss = FindObjectOfType<BossController>();
+            _bossDead = GetComponent<AudioSource>();
         }
 
         private void Update()
         {
-            /*if (transform.position.x >= 384)
-            {
-                CamSpeed = 0;
-            }*/
             MoveCamera();
             
-            if (_boss == null)
+            if (_boss == null && !_coroutineBegun)
             {
                 StartCoroutine(LoadWinScene());
+            }
+            
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
             }
         }
 
@@ -40,6 +41,8 @@ namespace Camera_Scripts
 
         private IEnumerator LoadWinScene()
         {
+            _coroutineBegun = true;
+            _bossDead.Play();
             yield return new WaitForSeconds(1);
             SceneManager.LoadScene(2);
         }

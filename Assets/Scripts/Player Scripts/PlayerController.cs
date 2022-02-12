@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Camera_Scripts;
 
 namespace Player_Scripts
@@ -16,13 +15,19 @@ namespace Player_Scripts
         [SerializeField] private GameObject shieldPrefab;
         [SerializeField] private GameObject missilePrefab;
         [SerializeField] private GameObject shipModel;
-        [SerializeField] private Text powerUpInfo;
-        
+
+
+        [SerializeField] private AudioClip shoot;
+        [SerializeField] private AudioClip laserShoot;
+        [SerializeField] private AudioClip gotShield;
+        [SerializeField] private AudioClip gotPickup;
+        [SerializeField] private AudioClip activatedPickup;
+
+
         private bool _hasDoubleShot;
         private bool _hasMissile;
         private bool _hasLaser;
         private bool _canSpawnShield;
-        private string _powerUpString;
         private int _currentHealth;
         
         public bool HasShield { get; set; }
@@ -31,12 +36,14 @@ namespace Player_Scripts
 
         private Rigidbody2D _rigidbody2D;
         private CameraController _cameraController; //refers to CameraController script
-        private Camera _mainCamera; //refers to the actual Camera itself
+        private Camera _mainCamera; //refers to the actual Camera itself\
+        private AudioSource _audioSource;
 
         private void Start()
         {
             _currentHealth = maxHealth;
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            _audioSource = GetComponent<AudioSource>();
             _cameraController = FindObjectOfType<CameraController>();
             _mainCamera = Camera.main;
             Instantiate(shieldPrefab);
@@ -50,7 +57,6 @@ namespace Player_Scripts
             ControlPlayer();
             HealthCheck();
             ShieldCheck();
-            UpdatePowerUpString();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -67,6 +73,9 @@ namespace Player_Scripts
                 {
                     PowerUpState = 1;
                 }
+
+                _audioSource.clip = gotPickup;
+                _audioSource.Play();
                 Destroy(other.gameObject);
             }
         }
@@ -103,19 +112,25 @@ namespace Player_Scripts
         {
             float ySpawn = 0;
             GameObject prefab = projectilePrefab;
+            if (!(yForce > 0))
+            {
+                _audioSource.clip = shoot; 
+            }
             if (hasLaser)
             {
                 prefab = laserPrefab;
+                _audioSource.clip = laserShoot;
             } 
             else if (isMissile)
             {
                 prefab = missilePrefab;
                 ySpawn = -0.5f;
             }
-
+            
             GameObject shot = Instantiate(prefab, _rigidbody2D.position + new Vector2(1.3f, ySpawn), angle);
             ProjectileController projectile = shot.GetComponent<ProjectileController>();
             projectile.Launch(xForce, yForce);
+            _audioSource.Play();
         }
     
         private void HealthCheck() //checks if the player should be dead or not
@@ -131,19 +146,21 @@ namespace Player_Scripts
 
         private void PowerUp() //activates when the player presses the powerup button; grants the player a powerup based on their powerup state
         {
-            _powerUpString = "NOTHING";
+            _audioSource.clip = activatedPickup;
             switch (PowerUpState)
             {
                 case 1:
                     moveSpeed *= 1.2f;
                     _cameraController.CamSpeed *= 1.2f;
                     PowerUpState = 0;
+                    _audioSource.Play();
                     break;
                 case 2:
                     if (!_hasMissile)
                     {
                         StartCoroutine(Missile());
                         PowerUpState = 0;
+                        _audioSource.Play();
                     }
                     break;
                 case 3:
@@ -151,6 +168,7 @@ namespace Player_Scripts
                     {
                         _hasDoubleShot = true;
                         PowerUpState = 0;
+                        _audioSource.Play();
                     }
                     break;
                 case 4:
@@ -158,72 +176,22 @@ namespace Player_Scripts
                     {
                         _hasLaser = true;
                         PowerUpState = 0;
+                        _audioSource.Play();
                     }
                     break;
                 case 5:
                     if (!HasShield)
                     {
                         _canSpawnShield = true;
+                        _audioSource.clip = gotShield;
+                        _audioSource.Play();
                         PowerUpState = 0; 
+                        _audioSource.Play();
                     }
                     break;
             }
         }
-
-        private void UpdatePowerUpString()
-        {
-            switch (PowerUpState)
-            {
-                case 0:
-                    _powerUpString = "NOTHING";
-                    break;
-                case 1:
-                    _powerUpString = "SPEEDUP";
-                    break;
-                case 2:
-                    if (!_hasMissile)
-                    {
-                        _powerUpString = "MISSILE";
-                    }
-                    else
-                    {
-                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE MISSILE)";
-                    }
-                    break;
-                case 3:
-                    if (!_hasDoubleShot)
-                    {
-                        _powerUpString = "DOUBLESHOT";
-                    }
-                    else
-                    {
-                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE DOUBLESHOT)";
-                    }
-                    break;
-                case 4:
-                    if (!_hasLaser)
-                    {
-                        _powerUpString = "LASER";
-                    }
-                    else
-                    {
-                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE LASER)";
-                    }
-                    break;
-                case 5:
-                    if (!_canSpawnShield && !HasShield)
-                    {
-                        _powerUpString = "SHIELD";
-                    }
-                    else
-                    {
-                        _powerUpString = "NOTHING \n(YOU ALREADY HAVE SHIELD)";
-                    }
-                    break;
-            }
-            
-            powerUpInfo.text = $"PowerUp State: {PowerUpState}\nPress Shift for {_powerUpString}";
-        }
+        
 
         private IEnumerator Missile() //shoots a missile downwards every second when activated
         {

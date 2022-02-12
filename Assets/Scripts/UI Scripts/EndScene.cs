@@ -12,6 +12,11 @@ namespace UI_Scripts
             {
                 RestartGame();
             }
+            
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
         }
 
         public void MainMenu ()

@@ -14,6 +14,14 @@ namespace UI_Scripts
         {
             Application.Quit();
         }
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
     }
 }
 
