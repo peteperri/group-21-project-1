@@ -1173,14 +1173,14 @@ RectTransform:
   m_GameObject: {fileID: 908630203}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.1497, y: 2.1497, z: 2.1497}
+  m_LocalScale: {x: 0.662351, y: 0.662351, z: 0.662351}
   m_Children: []
   m_Father: {fileID: 143278323}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -86.3}
+  m_AnchoredPosition: {x: 0, y: 6}
   m_SizeDelta: {x: 700, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &908630205
@@ -1205,17 +1205,17 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: de727d7e8dad3d244805c42a1273638e, type: 3}
-    m_FontSize: 14
+    m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
-    m_LineSpacing: 1.2
+    m_LineSpacing: 1.5
   m_Text: "How To Play:\nWASD to move\nSpacebar to fire projectiles\nLeft Shift to
     use current Power Up\n(Power Up Won't Activate if you\nAlready Have it)\n\nDefeat
     enemies and collect power ups\nto clear the level\n\nProgramming: Peter Perri
